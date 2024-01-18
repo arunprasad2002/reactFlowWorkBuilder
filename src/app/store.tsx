@@ -29,7 +29,8 @@ export type RFState = {
     onConnect: OnConnect;
     updateNodeColor: (nodeId: string, color: string) => void;
     deleteNode: (nodeId: string) => void,
-    setShowModal: (show: boolean) => void
+    setShowModal: (show: boolean) => void,
+    addNode: (node: Node[]) => void
 };
 
 // this is our useStore hook that we can use in our components to get parts of the store and call actions
@@ -74,6 +75,11 @@ const useStore = create<RFState>((set, get) => ({
         set((state) => ({
             showModal: show,
         }));
+    },
+    addNode: (node: Node[]) => {
+        set({
+            nodes: get().nodes.concat(node)
+        })
     }
 
 

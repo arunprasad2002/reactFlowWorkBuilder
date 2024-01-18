@@ -1,10 +1,22 @@
 import React from "react";
+import useStore from "../../app/store";
 interface NodeTypeCardProps {
     children: React.ReactNode;
     nodeType: string;
 }
 const NodeTypeCard: React.FC<NodeTypeCardProps> = ({ children, nodeType }) => {
+    const { addNode, setShowModal } = useStore(state => state)
+
     const createNode = () => {
+        const node = [{
+            id: '100',
+            type: 'input',
+            data: { color: '#4FD1C5' },
+            position: { x: 250, y: 25 },
+        }]
+
+        addNode(node)
+        setShowModal(false)
 
     };
 
