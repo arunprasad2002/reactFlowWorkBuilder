@@ -30,8 +30,8 @@ const FilterNode = ({ id }: NodeProps<NodeData>) => {
                 <option value="regex">data matches regex</option>
             </select>
 
-            <Handle type="target" position={Position.Top} />
-            <Handle type="source" position={Position.Bottom} />
+            <Handle type="target" position={Position.Top} onConnect={(params) => console.log(params)} />
+            <Handle type="source" position={Position.Bottom} onConnect={(params) => console.log(params)} />
         </NodeCard>
     )
 }
