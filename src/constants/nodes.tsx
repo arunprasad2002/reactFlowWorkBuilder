@@ -3,7 +3,7 @@ import { Node } from 'reactflow';
 export default [
     {
         id: '1',
-        type: 'colorChooser',
+        type: 'fileInput',
         data: { color: '#4FD1C5' },
         position: { x: 250, y: 25 },
     },
