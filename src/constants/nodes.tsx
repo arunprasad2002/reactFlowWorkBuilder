@@ -10,7 +10,7 @@ export default [
 
     {
         id: '2',
-        type: 'colorChooser',
+        type: 'filter',
         data: { color: '#F6E05E' },
         position: { x: 100, y: 125 },
     },

@@ -9,9 +9,10 @@ import ColorChooserNode from './components/CustomNodes/ColorChooserNode';
 import FileInputNode from './components/CustomNodes/FileInputNode';
 import Button from './components/UI/Button';
 
-const nodeTypes = { colorChooser: ColorChooserNode, fileInput: FileInputNode };
+const nodeTypes = { colorChooser: ColorChooserNode, fileInput: FileInputNode, filter: FilterNode };
 import { RFState } from './app/store';
 import NodeTypeModals from './components/Modal/NodeTypeModals';
+import FilterNode from './components/CustomNodes/FilterNode';
 
 const selector = (state: RFState) => ({
   nodes: state.nodes,

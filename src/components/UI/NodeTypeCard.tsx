@@ -1,4 +1,5 @@
 import React from "react";
+import { v4 as uuidv4 } from 'uuid';
 import useStore from "../../app/store";
 interface NodeTypeCardProps {
     children: React.ReactNode;
@@ -8,14 +9,17 @@ const NodeTypeCard: React.FC<NodeTypeCardProps> = ({ children, nodeType }) => {
     const { addNode, setShowModal } = useStore(state => state)
 
     const createNode = () => {
-        const node = [{
-            id: '100',
-            type: 'input',
-            data: { color: '#4FD1C5' },
-            position: { x: 250, y: 25 },
-        }]
 
-        addNode(node)
+        if (nodeType === 'fileNode') {
+            const fileNode = [{ id: uuidv4(), position: { x: 0, y: 0 }, data: { label: '1' }, type: 'fileInput' }]
+            addNode(fileNode)
+        }
+
+        if (nodeType === 'filter') {
+            const filterNode = [{ id: uuidv4(), position: { x: 0, y: 0 }, data: { label: '1' }, type: 'filter' }]
+            addNode(filterNode)
+        }
+
         setShowModal(false)
 
     };
