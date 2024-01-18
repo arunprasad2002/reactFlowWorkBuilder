@@ -7,7 +7,8 @@ import useStore, { NodeData } from "../../app/store";
 
 const FileInputNode = ({ id }: NodeProps<NodeData>) => {
     const [fileName, setFileName] = useState<string | undefined>();
-    const deleteNode = useStore(state => state.deleteNode)
+    const [localFileData, setLocalFileData] = useState()
+    const { deleteNode, setFileData } = useStore(state => state)
 
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -15,7 +16,7 @@ const FileInputNode = ({ id }: NodeProps<NodeData>) => {
             setFileName(file.name);
             Papa.parse(file, {
                 complete: (result: any) => {
-                    console.log(result);
+                    setLocalFileData(result)
                 },
             });
         }
@@ -58,7 +59,9 @@ const FileInputNode = ({ id }: NodeProps<NodeData>) => {
                         <p className="text-xs mt-2 text-center">Only CSV File</p>
                     )}
                 </label>
-                <Handle type="source" position={Position.Bottom} />
+                <Handle type="source" position={Position.Bottom} onConnect={(params) => {
+                    setFileData(localFileData)
+                }} />
             </NodeCard>
         </>
     );
