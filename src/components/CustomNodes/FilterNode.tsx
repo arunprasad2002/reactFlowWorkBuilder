@@ -18,29 +18,50 @@ const FilterNode = ({ id }: NodeProps<NodeData>) => {
     setFileData,
   } = useStore((state) => state);
 
-  console.log(output);
+  // console.log(output);
+
+  // const geneRateOutput = () => {
+  //   const entireCol = fileData.slice(1).map((row) => row[selectColIndex]);
+  //   if (selectedConditionValue === "text-includes") {
+  //     const result = entireCol.filter((item) => item.includes(textValue));
+  //     setOutPut(result);
+  //   }
+
+  //   if (selectedConditionValue === "text-is-exactly") {
+  //     const result = entireCol.filter((item) => item === textValue);
+  //     setOutPut(result);
+  //   }
+
+  //   if (selectedConditionValue === "text-is-not-exactly") {
+  //     const result = entireCol.filter((item) => item !== textValue);
+  //     setOutPut(result);
+  //   }
+
+  //   if (selectedConditionValue === "text-does-not-includes") {
+  //     const result = entireCol.filter((item) => !item.includes(textValue));
+  //     setOutPut(result);
+  //   }
+  // };
 
   const geneRateOutput = () => {
-    const entireCol = fileData.slice(1).map((row) => row[selectColIndex]);
-    if (selectedConditionValue === "text-includes") {
-      const result = entireCol.filter((item) => item.includes(textValue));
-      setOutPut(result);
-    }
+    const outputData = fileData.filter((row) => {
+      const item = row[selectColIndex];
 
-    if (selectedConditionValue === "text-is-exactly") {
-      const result = entireCol.filter((item) => item === textValue);
-      setOutPut(result);
-    }
+      switch (selectedConditionValue) {
+        case "text-includes":
+          return item.includes(textValue);
+        case "text-is-exactly":
+          return item === textValue;
+        case "text-is-not-exactly":
+          return item !== textValue;
+        case "text-does-not-includes":
+          return !item.includes(textValue);
+        default:
+          return true;
+      }
+    });
 
-    if (selectedConditionValue === "text-is-not-exactly") {
-      const result = entireCol.filter((item) => item !== textValue);
-      setOutPut(result);
-    }
-
-    if (selectedConditionValue === "text-does-not-includes") {
-      const result = entireCol.filter((item) => !item.includes(textValue));
-      setOutPut(result);
-    }
+    setOutPut(outputData);
   };
 
   // @ts-ignore

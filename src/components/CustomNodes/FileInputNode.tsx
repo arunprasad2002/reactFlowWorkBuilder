@@ -8,7 +8,7 @@ import useStore, { NodeData } from "../../app/store";
 const FileInputNode = ({ id }: NodeProps<NodeData>) => {
   const [fileName, setFileName] = useState<string | undefined>();
   const [localFileData, setLocalFileData] = useState();
-  const { deleteNode, setFileData, setGlobalFileData } = useStore(
+  const { deleteNode, setFileData, setGlobalFileData, setOutPut } = useStore(
     (state) => state
   );
 
@@ -20,6 +20,7 @@ const FileInputNode = ({ id }: NodeProps<NodeData>) => {
         complete: (result: any) => {
           setLocalFileData(result.data);
           setGlobalFileData(result.data);
+          setOutPut(result.data.slice(1));
         },
       });
     }
