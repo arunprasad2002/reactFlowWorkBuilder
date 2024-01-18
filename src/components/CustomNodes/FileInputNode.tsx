@@ -8,7 +8,9 @@ import useStore, { NodeData } from "../../app/store";
 const FileInputNode = ({ id }: NodeProps<NodeData>) => {
   const [fileName, setFileName] = useState<string | undefined>();
   const [localFileData, setLocalFileData] = useState();
-  const { deleteNode, setFileData } = useStore((state) => state);
+  const { deleteNode, setFileData, setGlobalFileData } = useStore(
+    (state) => state
+  );
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -17,6 +19,7 @@ const FileInputNode = ({ id }: NodeProps<NodeData>) => {
       Papa.parse(file, {
         complete: (result: any) => {
           setLocalFileData(result.data);
+          setGlobalFileData(result.data);
         },
       });
     }

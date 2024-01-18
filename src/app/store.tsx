@@ -24,6 +24,7 @@ export type RFState = {
   nodes: Node<NodeData>[];
   edges: Edge[];
   showModal: boolean;
+  gloabalFileData: [];
   fileData: [];
   output: [];
   onNodesChange: OnNodesChange;
@@ -35,6 +36,7 @@ export type RFState = {
   addNode: (node: Node[]) => void;
   setFileData: (data: any) => void;
   setOutPut: (data: []) => void;
+  setGlobalFileData: (data: []) => void;
 };
 
 // this is our useStore hook that we can use in our components to get parts of the store and call actions
@@ -42,6 +44,7 @@ const useStore = create<RFState>((set, get) => ({
   nodes: initialNodes,
   edges: initialEdges,
   showModal: false,
+  gloabalFileData: [],
   fileData: [],
   output: [],
   onNodesChange: (changes: NodeChange[]) => {
@@ -97,6 +100,10 @@ const useStore = create<RFState>((set, get) => ({
     set((state) => ({
       output: data,
     }));
+  },
+
+  setGlobalFileData: (data: []) => {
+    set((state) => ({ gloabalFileData: data }));
   },
 }));
 

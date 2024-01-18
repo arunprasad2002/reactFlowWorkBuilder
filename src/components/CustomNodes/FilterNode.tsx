@@ -9,9 +9,14 @@ const FilterNode = ({ id }: NodeProps<NodeData>) => {
   const [selectedConditionValue, setSelectedCoditionValue] = useState("");
   const [textValue, setTextValue] = useState("");
   const [selectColIndex, setSelectColIndex] = useState(0);
-  const { deleteNode, fileData, output, setOutPut } = useStore(
-    (state) => state
-  );
+  const {
+    deleteNode,
+    fileData,
+    output,
+    setOutPut,
+    gloabalFileData,
+    setFileData,
+  } = useStore((state) => state);
 
   console.log(output);
 
@@ -107,7 +112,9 @@ const FilterNode = ({ id }: NodeProps<NodeData>) => {
       <Handle
         type="target"
         position={Position.Top}
-        onConnect={(params) => console.log(fileData)}
+        onConnect={(params) => {
+          setFileData(gloabalFileData);
+        }}
       />
       <Handle
         type="source"

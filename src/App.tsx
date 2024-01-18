@@ -1,18 +1,27 @@
-import React from 'react';
-import ReactFlow, { Background, MiniMap, Controls, BackgroundVariant, ReactFlowProvider } from 'reactflow';
-import { shallow } from 'zustand/shallow';
+import React from "react";
+import ReactFlow, {
+  Background,
+  MiniMap,
+  Controls,
+  BackgroundVariant,
+} from "reactflow";
+import { shallow } from "zustand/shallow";
+import "reactflow/dist/style.css";
 
-import 'reactflow/dist/style.css';
+import useStore from "./app/store";
+import ColorChooserNode from "./components/CustomNodes/ColorChooserNode";
+import FileInputNode from "./components/CustomNodes/FileInputNode";
+import Button from "./components/UI/Button";
 
-import useStore from './app/store';
-import ColorChooserNode from './components/CustomNodes/ColorChooserNode';
-import FileInputNode from './components/CustomNodes/FileInputNode';
-import Button from './components/UI/Button';
-
-const nodeTypes = { colorChooser: ColorChooserNode, fileInput: FileInputNode, filter: FilterNode };
-import { RFState } from './app/store';
-import NodeTypeModals from './components/Modal/NodeTypeModals';
-import FilterNode from './components/CustomNodes/FilterNode';
+const nodeTypes = {
+  colorChooser: ColorChooserNode,
+  fileInput: FileInputNode,
+  filter: FilterNode,
+};
+import { RFState } from "./app/store";
+import NodeTypeModals from "./components/Modal/NodeTypeModals";
+import FilterNode from "./components/CustomNodes/FilterNode";
+import DataTable from "./components/Table/DataTable";
 
 const selector = (state: RFState) => ({
   nodes: state.nodes,
@@ -21,20 +30,30 @@ const selector = (state: RFState) => ({
   onEdgesChange: state.onEdgesChange,
   onConnect: state.onConnect,
   showModal: state.showModal,
-  setShowModal: state.setShowModal
+  setShowModal: state.setShowModal,
+  gloabalFileData: state.gloabalFileData,
 });
 
 function Flow() {
-  const { nodes, edges, onNodesChange, onEdgesChange, onConnect, showModal, setShowModal } = useStore(selector, shallow);
+  const {
+    nodes,
+    edges,
+    onNodesChange,
+    onEdgesChange,
+    onConnect,
+    showModal,
+    setShowModal,
+    gloabalFileData,
+  } = useStore(selector, shallow);
 
   const modalShow = () => {
-    setShowModal(true)
-  }
+    setShowModal(true);
+  };
 
   return (
     <>
       <Button modalShow={modalShow}>Create Block</Button>
-      <div className='w-sreen h-screen'>
+      <div className="w-sreen h-[60vh]">
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -50,6 +69,7 @@ function Flow() {
         </ReactFlow>
         {showModal && <NodeTypeModals setShowModal={setShowModal} />}
       </div>
+      <DataTable />
     </>
   );
 }
