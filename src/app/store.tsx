@@ -20,6 +20,10 @@ export type NodeData = {
   color: string;
 };
 
+export type NodeStates = {
+  [nodeId: string]: string[]
+};
+
 export type RFState = {
   nodes: Node<NodeData>[];
   edges: Edge[];
@@ -27,6 +31,10 @@ export type RFState = {
   gloabalFileData: [];
   fileData: [];
   output: [];
+  nodeState: NodeStates,
+  currentNodeId: string,
+  sourceNodeId: string,
+  targetNodeId: string,
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
@@ -37,6 +45,10 @@ export type RFState = {
   setFileData: (data: any) => void;
   setOutPut: (data: []) => void;
   setGlobalFileData: (data: []) => void;
+  setNodeState: (id: string, state: []) => void;
+  setCurrentNodeId: (nodeId: string) => void
+  setSourceNodeId: (nodeId: string) => void
+  setTargetNodeId: (nodeId: string) => void
 };
 
 // this is our useStore hook that we can use in our components to get parts of the store and call actions
@@ -47,6 +59,11 @@ const useStore = create<RFState>((set, get) => ({
   gloabalFileData: [],
   fileData: [],
   output: [],
+  nodeState: {},
+  currentNodeId: '',
+  targetNodeId: '',
+  sourceNodeId: '',
+
   onNodesChange: (changes: NodeChange[]) => {
     set({
       nodes: applyNodeChanges(changes, get().nodes),
@@ -105,6 +122,28 @@ const useStore = create<RFState>((set, get) => ({
   setGlobalFileData: (data: []) => {
     set((state) => ({ gloabalFileData: data }));
   },
+
+  setNodeState: (id: string, state: string[]) => {
+    set((prevState) => ({
+      nodeState: {
+        ...prevState.nodeState,
+        [id]: state,
+      },
+    }));
+  },
+
+  setCurrentNodeId: (nodeId: string) => {
+    set((state) => ({ currentNodeId: nodeId }))
+  },
+
+  setSourceNodeId: (nodeId: string) => {
+    set((state) => ({ sourceNodeId: nodeId }))
+  },
+
+  setTargetNodeId: (nodeId: string) => {
+    set((state) => ({ targetNodeId: nodeId }))
+  }
+
 }));
 
 export default useStore;

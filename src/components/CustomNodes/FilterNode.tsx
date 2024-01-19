@@ -16,32 +16,10 @@ const FilterNode = ({ id }: NodeProps<NodeData>) => {
     setOutPut,
     gloabalFileData,
     setFileData,
+    setNodeState,
+    nodeState
   } = useStore((state) => state);
 
-  // console.log(output);
-
-  // const geneRateOutput = () => {
-  //   const entireCol = fileData.slice(1).map((row) => row[selectColIndex]);
-  //   if (selectedConditionValue === "text-includes") {
-  //     const result = entireCol.filter((item) => item.includes(textValue));
-  //     setOutPut(result);
-  //   }
-
-  //   if (selectedConditionValue === "text-is-exactly") {
-  //     const result = entireCol.filter((item) => item === textValue);
-  //     setOutPut(result);
-  //   }
-
-  //   if (selectedConditionValue === "text-is-not-exactly") {
-  //     const result = entireCol.filter((item) => item !== textValue);
-  //     setOutPut(result);
-  //   }
-
-  //   if (selectedConditionValue === "text-does-not-includes") {
-  //     const result = entireCol.filter((item) => !item.includes(textValue));
-  //     setOutPut(result);
-  //   }
-  // };
 
   const geneRateOutput = () => {
     const outputData = fileData.filter((row) => {
@@ -62,6 +40,7 @@ const FilterNode = ({ id }: NodeProps<NodeData>) => {
     });
 
     setOutPut(outputData);
+    setNodeState(id, outputData)
   };
 
   // @ts-ignore
@@ -140,7 +119,7 @@ const FilterNode = ({ id }: NodeProps<NodeData>) => {
       <Handle
         type="source"
         position={Position.Bottom}
-        onConnect={(params) => console.log(fileData)}
+      // onConnect={(params) => console.log(fileData)}
       />
     </NodeCard>
   );

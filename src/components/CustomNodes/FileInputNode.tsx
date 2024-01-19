@@ -8,9 +8,10 @@ import useStore, { NodeData } from "../../app/store";
 const FileInputNode = ({ id }: NodeProps<NodeData>) => {
   const [fileName, setFileName] = useState<string | undefined>();
   const [localFileData, setLocalFileData] = useState();
-  const { deleteNode, setFileData, setGlobalFileData, setOutPut } = useStore(
+  const { deleteNode, setFileData, setGlobalFileData, setOutPut, setNodeState, nodeState } = useStore(
     (state) => state
   );
+
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -21,6 +22,7 @@ const FileInputNode = ({ id }: NodeProps<NodeData>) => {
           setLocalFileData(result.data);
           setGlobalFileData(result.data);
           setOutPut(result.data.slice(1));
+          setNodeState(id, result.data)
         },
       });
     }
@@ -72,6 +74,7 @@ const FileInputNode = ({ id }: NodeProps<NodeData>) => {
           onConnect={(params) => {
             setFileData(localFileData);
           }}
+
         />
       </NodeCard>
     </>

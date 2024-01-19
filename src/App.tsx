@@ -4,6 +4,7 @@ import ReactFlow, {
   MiniMap,
   Controls,
   BackgroundVariant,
+  useNodeId,
 } from "reactflow";
 import { shallow } from "zustand/shallow";
 import "reactflow/dist/style.css";
@@ -32,6 +33,15 @@ const selector = (state: RFState) => ({
   showModal: state.showModal,
   setShowModal: state.setShowModal,
   gloabalFileData: state.gloabalFileData,
+  setCurrentNodeId: state.setCurrentNodeId,
+  currentNodeId: state.currentNodeId,
+  nodeState: state.nodeState,
+  output: state.output,
+  setOutput: state.setOutPut,
+  sourceNodeId: state.sourceNodeId,
+  targetNodeId: state.targetNodeId,
+  setSourceNodId: state.setSourceNodeId,
+  setTragetNodeId: state.setTargetNodeId
 });
 
 function Flow() {
@@ -44,6 +54,15 @@ function Flow() {
     showModal,
     setShowModal,
     gloabalFileData,
+    setCurrentNodeId,
+    currentNodeId,
+    nodeState,
+    output,
+    setOutput,
+    sourceNodeId,
+    targetNodeId,
+    setSourceNodId,
+    setTragetNodeId
   } = useStore(selector, shallow);
 
   const modalShow = () => {
@@ -59,9 +78,27 @@ function Flow() {
           edges={edges}
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
-          onConnect={onConnect}
+          onConnect={(connection) => {
+            onConnect(connection)
+            setSourceNodId(connection.source)
+            setTragetNodeId(connection.target)
+          }}
           nodeTypes={nodeTypes}
           fitView
+          onNodeClick={(event, node) => {
+            console.log(node.id)
+            const current = nodeState[node.id]
+            if (!current) {
+              setOutput([])
+            } else {
+              setOutput(current)
+            }
+            setCurrentNodeId(node.id)
+          }}
+
+          onEdgeUpdate={(old, newConn) => {
+            console.log(old, newConn)
+          }}
         >
           <Controls />
           <MiniMap />
