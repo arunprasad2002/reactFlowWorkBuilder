@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import NodeCard from "../UI/NodeCard";
 import { Handle, NodeProps, Position } from "reactflow";
 import useStore, { NodeData } from "../../app/store";
@@ -9,20 +9,41 @@ const FilterNode = ({ id }: NodeProps<NodeData>) => {
   const [selectedConditionValue, setSelectedCoditionValue] = useState("");
   const [textValue, setTextValue] = useState("");
   const [selectColIndex, setSelectColIndex] = useState(0);
+  const [columns, setColumns] = useState([])
   const {
     deleteNode,
-    fileData,
     output,
     setOutPut,
-    gloabalFileData,
-    setFileData,
     setNodeState,
-    nodeState
+    nodeState,
+    sourceNodeId,
+    removeNodeState
   } = useStore((state) => state);
 
 
+
+
+  const [currentState, setCurrentState] = useState([])
+
+
+  useEffect(() => {
+    setCurrentState(nodeState[sourceNodeId])
+  }, [nodeState, sourceNodeId])
+
+
+  useEffect(() => {
+    if (currentState) {
+      setColumns(currentState[0])
+    } else {
+      setColumns([])
+    }
+  }, [currentState])
+
+
+
   const geneRateOutput = () => {
-    const outputData = fileData.filter((row) => {
+
+    const outputData = currentState.filter((row) => {
       const item = row[selectColIndex];
 
       switch (selectedConditionValue) {
@@ -39,18 +60,24 @@ const FilterNode = ({ id }: NodeProps<NodeData>) => {
       }
     });
 
-    setOutPut(outputData);
+
+
+
     setNodeState(id, outputData)
+    setOutPut(outputData)
+
+
   };
 
-  // @ts-ignore
-  const columns = fileData ? fileData[0] : [];
+
   return (
     <NodeCard>
       <MdClose
         className="absolute top-2 right-2 opacity-50 hover:opacity-100 text-white"
         onClick={() => {
           deleteNode(id);
+          removeNodeState(id)
+          console.log(nodeState)
         }}
       />
       <p className="text-white text-md font-semibold text center">Filter</p>
@@ -112,9 +139,6 @@ const FilterNode = ({ id }: NodeProps<NodeData>) => {
       <Handle
         type="target"
         position={Position.Top}
-        onConnect={(params) => {
-          setFileData(gloabalFileData);
-        }}
       />
       <Handle
         type="source"
@@ -122,6 +146,7 @@ const FilterNode = ({ id }: NodeProps<NodeData>) => {
       // onConnect={(params) => console.log(fileData)}
       />
     </NodeCard>
+
   );
 };
 

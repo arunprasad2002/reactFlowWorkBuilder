@@ -27,26 +27,19 @@ export type NodeStates = {
 export type RFState = {
   nodes: Node<NodeData>[];
   edges: Edge[];
+  output: [],
   showModal: boolean;
-  gloabalFileData: [];
-  fileData: [];
-  output: [];
   nodeState: NodeStates,
-  currentNodeId: string,
   sourceNodeId: string,
   targetNodeId: string,
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
-  updateNodeColor: (nodeId: string, color: string) => void;
   deleteNode: (nodeId: string) => void;
   setShowModal: (show: boolean) => void;
   addNode: (node: Node[]) => void;
-  setFileData: (data: any) => void;
   setOutPut: (data: []) => void;
-  setGlobalFileData: (data: []) => void;
   setNodeState: (id: string, state: []) => void;
-  setCurrentNodeId: (nodeId: string) => void
   setSourceNodeId: (nodeId: string) => void
   setTargetNodeId: (nodeId: string) => void
 };
@@ -56,13 +49,11 @@ const useStore = create<RFState>((set, get) => ({
   nodes: initialNodes,
   edges: initialEdges,
   showModal: false,
-  gloabalFileData: [],
-  fileData: [],
   output: [],
   nodeState: {},
-  currentNodeId: '',
   targetNodeId: '',
   sourceNodeId: '',
+
 
   onNodesChange: (changes: NodeChange[]) => {
     set({
@@ -77,18 +68,6 @@ const useStore = create<RFState>((set, get) => ({
   onConnect: (connection: Connection) => {
     set({
       edges: addEdge(connection, get().edges),
-    });
-  },
-  updateNodeColor: (nodeId: string, color: string) => {
-    set({
-      nodes: get().nodes.map((node) => {
-        if (node.id === nodeId) {
-          // it's important to create a new object here, to inform React Flow about the cahnges
-          node.data = { ...node.data, color };
-        }
-
-        return node;
-      }),
     });
   },
 
@@ -108,19 +87,10 @@ const useStore = create<RFState>((set, get) => ({
     });
   },
 
-  setFileData: (data: []) => {
-    set((state) => ({
-      fileData: data,
-    }));
-  },
   setOutPut: (data: []) => {
     set((state) => ({
       output: data,
     }));
-  },
-
-  setGlobalFileData: (data: []) => {
-    set((state) => ({ gloabalFileData: data }));
   },
 
   setNodeState: (id: string, state: string[]) => {
@@ -131,11 +101,6 @@ const useStore = create<RFState>((set, get) => ({
       },
     }));
   },
-
-  setCurrentNodeId: (nodeId: string) => {
-    set((state) => ({ currentNodeId: nodeId }))
-  },
-
   setSourceNodeId: (nodeId: string) => {
     set((state) => ({ sourceNodeId: nodeId }))
   },
