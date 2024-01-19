@@ -70,6 +70,9 @@ const FilterNode = ({ id }: NodeProps<NodeData>) => {
   };
 
 
+
+
+
   return (
     <NodeCard>
       <MdClose
@@ -100,7 +103,7 @@ const FilterNode = ({ id }: NodeProps<NodeData>) => {
           })}
       </select>
 
-      {columns && (
+      {columns && columns.length > 0 && (
         <select
           className="appearance-none p-1 px-2 text-xs mt-2 bg-transparent border focus:outline-none w-[80%] rounded-full  font-thin mt-2 flex flex-col justify-center items-center"
           onChange={(e) => {

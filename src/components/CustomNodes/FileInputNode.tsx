@@ -68,9 +68,6 @@ const FileInputNode = ({ id }: NodeProps<NodeData>) => {
         <Handle
           type="source"
           position={Position.Bottom}
-          onConnect={(params) => {
-            setFileData(localFileData);
-          }}
 
         />
       </NodeCard>
